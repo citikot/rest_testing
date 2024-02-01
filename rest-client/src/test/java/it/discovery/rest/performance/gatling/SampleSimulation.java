@@ -16,11 +16,11 @@ public class SampleSimulation extends Simulation {
     ScenarioBuilder scn = scenario("SampleSimulation")
             .exec(http("request_1")
                     .get("/api/books"))
-            .pause(5);
+            .pause(0, 3);
 
     {
         setUp(
-                scn.injectOpen(atOnceUsers(1))
+                scn.injectOpen(atOnceUsers(2500))
         ).protocols(httpProtocol);
     }
 
