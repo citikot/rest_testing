@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.discovery.api.BookClient;
 import it.discovery.dto.BookDTO;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClient;
 
 import java.net.URI;
@@ -34,7 +36,9 @@ public class Spring6BookClient implements BookClient {
 
     @Override
     public URI create(BookDTO book) {
-        return null;
+        ResponseEntity<Void> response = restClient.post().body(book)
+                .contentType(MediaType.APPLICATION_JSON).retrieve().toEntity(Void.class);
+        return response.getHeaders().getLocation();
     }
 
     @Override
