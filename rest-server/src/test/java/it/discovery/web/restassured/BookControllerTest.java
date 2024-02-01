@@ -1,9 +1,7 @@
 package it.discovery.web.restassured;
 
 import io.restassured.http.ContentType;
-import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import it.discovery.dto.BookDTO;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +19,15 @@ public class BookControllerTest {
     @Autowired
     MockMvc mockMvc;
 
-    @BeforeEach
-    void setup() {
-        RestAssuredMockMvc.mockMvc(mockMvc);
-    }
+//    @BeforeEach
+//    void setup() {
+//        RestAssuredMockMvc.mockMvc(mockMvc);
+//    }
 
     @Test
     @DisplayName("GET /api/books Returns single book at startup")
     void findAll_singleBookPresent_bookReturned() {
-        Integer bookCount = given().when().get("/api/books").then().status(HttpStatus.OK)
+        Integer bookCount = given().mockMvc(mockMvc).when().get("/api/books").then().status(HttpStatus.OK)
                 .contentType(ContentType.JSON)
                 .extract().response().jsonPath().getObject("size()", Integer.class);
         assertEquals(1, bookCount);
@@ -43,7 +41,7 @@ public class BookControllerTest {
         book.setYear(2022);
         book.setAmount(5);
 
-        given().body(book).contentType(ContentType.JSON)
+        given().mockMvc(mockMvc).body(book).contentType(ContentType.JSON)
                 .when().post("/api/books")
                 .then().status(HttpStatus.BAD_REQUEST);
     }
