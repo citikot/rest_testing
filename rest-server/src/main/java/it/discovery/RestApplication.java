@@ -15,7 +15,7 @@ public class RestApplication {
 
     @Bean
     ApplicationRunner applicationRunner(BookRepository bookRepository) {
-        return args -> {
+        return _ -> {
             Book book = new Book();
             book.setName("REST API");
             book.setAuthor("Roy Fielding");
