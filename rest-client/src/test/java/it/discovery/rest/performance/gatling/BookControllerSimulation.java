@@ -8,12 +8,12 @@ import static io.gatling.javaapi.core.CoreDsl.atOnceUsers;
 import static io.gatling.javaapi.core.CoreDsl.scenario;
 import static io.gatling.javaapi.http.HttpDsl.http;
 
-public class SampleSimulation extends Simulation {
+public class BookControllerSimulation extends Simulation {
 
     HttpProtocolBuilder httpProtocol = http
             .baseUrl("http://localhost:8080");
 
-    ScenarioBuilder scn = scenario("SampleSimulation")
+    ScenarioBuilder scn = scenario("BookControllerSimulation")
             .exec(http("request_1")
                     .get("/api/books"))
             .pause(0, 3);
@@ -21,6 +21,7 @@ public class SampleSimulation extends Simulation {
     {
         setUp(
                 scn.injectOpen(atOnceUsers(2500))
+                //TODO add close work load
         ).protocols(httpProtocol);
     }
 
